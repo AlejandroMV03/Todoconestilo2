@@ -42,6 +42,7 @@ const productosBolsos = [
     imagen: "/Img/.jpg",
   },
 
+
 ];
 
 export default productosBolsos;
