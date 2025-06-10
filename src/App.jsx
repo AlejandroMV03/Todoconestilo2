@@ -9,6 +9,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
 import Login from "./Componets/Login";
 import './index.css';
+import Contacto from "./Pages/Contacto";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -59,10 +60,12 @@ function App() {
         <BrowserRouter>
           <Header user={user} />
           <Routes>
+            <Route path="/" element={<Inicio />} />
             <Route path="/Inicio" element={<Inicio />} />
             <Route path="/Bolsos" element={<Bolsos />} />
             <Route path="/Maletas" element={<Maletas />} />
             <Route path="/Perfumes" element={<Perfumes />} />
+            <Route path="/Contacto" element={<Contacto />} />
           </Routes>
         </BrowserRouter>
       )}

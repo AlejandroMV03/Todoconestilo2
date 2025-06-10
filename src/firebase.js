@@ -14,11 +14,16 @@ const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
 
-// Cambiar persistencia a local para que no se pierda al recargar
+
 setPersistence(auth, browserLocalPersistence).catch((error) => {
   console.error("Error al configurar persistencia:", error);
 });
 
 const provider = new GoogleAuthProvider();
+
+
+provider.setCustomParameters({
+  prompt: "select_account",
+});
 
 export { auth, provider };

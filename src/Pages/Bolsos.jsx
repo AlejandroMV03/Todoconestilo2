@@ -1,49 +1,6 @@
 import { useState } from "react";
-
-const productos = [
-  {
-    id: 1,
-    nombre: "Bolso Elegante",
-    precio: "$599",
-    disponible: true,
-    imagen: "/Img/1.jpg",
-  },
-  {
-    id: 2,
-    nombre: "Bolso Casual",
-    precio: "$450",
-    disponible: true,
-    imagen: "/Img/2.jpg",
-  },
-  {
-    id: 3,
-    nombre: "",
-    precio: "",
-    disponible: false,
-    imagen: "/Img/.jpg",
-  },
-  {
-    id: 4,
-    nombre: "Bolso Clásico",
-    precio: "$390",
-    disponible: true,
-    imagen: "/Img/4.jpg",
-  },
-  {
-    id: 5,
-    nombre: "Bolso Moderno",
-    precio: "$530",
-    disponible: true,
-    imagen: "/Img/5.jpg",
-  },
-  {
-    id: 6,
-    nombre: "",
-    precio: "",
-    disponible: false,
-    imagen: "/Img/.jpg",
-  },
-];
+import productosBolsos from "../data/bolsos";
+import ProductCard from "../Componets/ProductCard";
 
 export default function Bolsos() {
   const [imagenAmpliada, setImagenAmpliada] = useState(null);
@@ -55,25 +12,12 @@ export default function Bolsos() {
       </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {productos.map((producto) => (
-          <div
+        {productosBolsos.map((producto) => (
+          <ProductCard
             key={producto.id}
-            className="bg-white/90 p-4 rounded-2xl shadow-lg hover:shadow-pink-300 transition duration-300 cursor-pointer"
-            onClick={() => setImagenAmpliada(producto)}
-          >
-            <img
-              src={producto.imagen}
-              alt={producto.nombre}
-              className="w-full h-48 object-cover rounded-xl mb-4"
-            />
-            <h3 className="text-xl font-semibold text-pink-900">
-              {producto.nombre}
-            </h3>
-            <p className="text-pink-700">{producto.precio}</p>
-            <p className={`text-sm ${producto.disponible ? "text-green-600" : "text-red-500"}`}>
-              {producto.disponible ? "Disponible" : "No disponible"}
-            </p>
-          </div>
+            producto={producto}
+            onClick={setImagenAmpliada}
+          />
         ))}
       </div>
 
