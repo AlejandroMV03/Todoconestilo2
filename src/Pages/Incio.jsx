@@ -50,7 +50,7 @@ export default function Inicio() {
 
         {/* WhatsApp */}
         <a
-          href="https://chat.whatsapp.com/KeZQ5yHKWosJHmbWyLEynb"
+          href="https://chat.whatsapp.com/KeZQ5yHKWosJHmbWyIEynb"
           target="_blank"
           rel="noopener noreferrer"
           className="flex flex-col items-center bg-white/90 shadow-lg rounded-3xl p-6 max-w-xs text-gray-700

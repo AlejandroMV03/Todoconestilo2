@@ -19,7 +19,7 @@ export default function Header({ user }) {
         <ul className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
           <li><NavLink to="/Inicio" className={({ isActive }) => (isActive ? "text-yellow-300" : "text-white")}>Inicio</NavLink></li>
           <li><NavLink to="/Bolsos" className={({ isActive }) => (isActive ? "text-yellow-300" : "text-white")}>Bolsos</NavLink></li>
-          <li><NavLink to="/Maletas" className={({ isActive }) => (isActive ? "text-yellow-300" : "text-white")}>Maletas</NavLink></li>
+          
           <li><NavLink to="/Perfumes" className={({ isActive }) => (isActive ? "text-yellow-300" : "text-white")}>Perfumes</NavLink></li>
           <li><NavLink to="/Contacto" className={({ isActive }) => (isActive ? "text-yellow-300" : "text-white")}>Contacto</NavLink></li>
         </ul>

@@ -7,7 +7,7 @@ export default function Bolsos() {
 
   return (
     <div className="min-h-screen bg-pink-50 p-6">
-      <h2 className="text-3xl font-playfair text-center mb-10 text-pink-800">
+      <h2 className="text-3xl font-playfair text-center mb-10 text-pink-800 animate-aesthetic">
         Nuestra colección de bolsos
       </h2>
 
