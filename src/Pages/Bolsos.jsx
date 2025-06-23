@@ -1,6 +1,7 @@
 import { useState } from "react";
 import productosBolsos from "../data/bolsos";
-import ProductCard from "../Componets/ProductCard";
+import ProductCard from "../Componets/ProductCard"; 
+import WhatsAppButton from "../Componets/WhatsAppButton"; 
 
 export default function Bolsos() {
   const [imagenAmpliada, setImagenAmpliada] = useState(null);
@@ -33,6 +34,10 @@ export default function Bolsos() {
           />
         </div>
       )}
+
+      {/* ✅ Botón flotante de WhatsApp */}
+      <WhatsAppButton />
     </div>
   );
 }
+

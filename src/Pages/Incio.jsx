@@ -1,4 +1,5 @@
 import { useState } from "react";
+import WhatsAppButton from "../Componets/WhatsAppButton"; 
 
 export default function Inicio() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -130,6 +131,7 @@ export default function Inicio() {
           </div>
         </div>
       )}
+      <WhatsAppButton />
     </div>
   );
 }

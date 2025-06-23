@@ -1,6 +1,7 @@
 import { useState } from "react";
 import productosPerfumes  from "../data/perfume";
 import ProductCard from "../Componets/ProductCard";
+import WhatsAppButton from "../Componets/WhatsAppButton"; 
 
 export default function Perfumes() {
   const [imagenAmpliada, setImagenAmpliada] = useState(null);
@@ -32,6 +33,7 @@ export default function Perfumes() {
           />
         </div>
       )}
+      <WhatsAppButton />
     </div>
   );
 }

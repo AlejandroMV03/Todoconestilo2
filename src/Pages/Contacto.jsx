@@ -1,5 +1,6 @@
 import React from 'react';
 import { useForm, ValidationError } from '@formspree/react';
+import WhatsAppButton from "../Componets/WhatsAppButton"; 
 
 export default function Contacto() {
   const [state, handleSubmit] = useForm("xjkryekv"); 
@@ -72,6 +73,7 @@ export default function Contacto() {
           Enviar
         </button>
       </form>
+      <WhatsAppButton />
     </div>
   );
 }
