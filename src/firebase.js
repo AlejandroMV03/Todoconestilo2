@@ -1,5 +1,11 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, setPersistence, browserLocalPersistence } from "firebase/auth";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  setPersistence,
+  browserLocalPersistence,
+} from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB3TzMNNlwGi4lgQ6rXA1aWt9c0l-TNgZg",
@@ -11,19 +17,14 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-
 const auth = getAuth(app);
-
+const db = getFirestore(app);
 
 setPersistence(auth, browserLocalPersistence).catch((error) => {
   console.error("Error al configurar persistencia:", error);
 });
 
 const provider = new GoogleAuthProvider();
+provider.setCustomParameters({ prompt: "select_account" });
 
-
-provider.setCustomParameters({
-  prompt: "select_account",
-});
-
-export { auth, provider };
+export { auth, provider, db };
