@@ -3,7 +3,7 @@ import { useForm, ValidationError } from '@formspree/react';
 import WhatsAppButton from "../Componets/WhatsAppButton"; 
 
 export default function Contacto() {
-  const [state, handleSubmit] = useForm("xjkryekv"); 
+  const [state, handleSubmit] = useForm("xldnodbo"); 
 
   if (state.succeeded) {
     return <p className="text-center text-green-600 font-semibold mt-6">¡Gracias por tu mensaje! Te responderemos pronto.</p>;
