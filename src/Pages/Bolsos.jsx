@@ -1,66 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import productosBolsos from "../data/bolsos";
 import ProductCard from "../Componets/ProductCard";
 import WhatsAppButton from "../Componets/WhatsAppButton";
 import Carrito from "../Componets/Carrito";
-
-import { auth, db } from "../firebase";
-import { doc, setDoc, onSnapshot } from "firebase/firestore";
+import { useCarrito } from "../CarritoContext"; // ✅ Importar el contexto
 
 export default function Bolsos() {
   const [imagenAmpliada, setImagenAmpliada] = useState(null);
-  const [carrito, setCarrito] = useState([]);
   const [mostrarCarrito, setMostrarCarrito] = useState(false);
-  const [cargandoDesdeFirebase, setCargandoDesdeFirebase] = useState(true);
-
-  // 👉 Guardar carrito en Firebase
-  const guardarCarritoEnFirebase = async (carritoActual) => {
-    const user = auth.currentUser;
-    if (!user) return;
-
-    try {
-      await setDoc(doc(db, "carritos", user.uid), {
-        items: carritoActual,
-        actualizado: new Date(),
-      });
-    } catch (error) {
-      console.error("❌ Error al guardar carrito en Firebase:", error);
-    }
-  };
-
-  // 👉 Escuchar cambios desde Firebase (solo si usuario está logueado)
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (!user) {
-        const localCarrito = localStorage.getItem("carrito");
-        if (localCarrito) setCarrito(JSON.parse(localCarrito));
-        setCargandoDesdeFirebase(false);
-        return;
-      }
-
-      const docRef = doc(db, "carritos", user.uid);
-      const unsub = onSnapshot(docRef, (docSnap) => {
-        if (docSnap.exists()) {
-          setCarrito(docSnap.data().items || []);
-        } else {
-          setCarrito([]);
-        }
-        setCargandoDesdeFirebase(false);
-      });
-
-      return () => unsub();
-    });
-
-    return () => unsubscribe();
-  }, []);
-
-  // 👉 Guardar en localStorage y Firebase cuando cambie el carrito
-  useEffect(() => {
-    localStorage.setItem("carrito", JSON.stringify(carrito));
-    if (!cargandoDesdeFirebase) {
-      guardarCarritoEnFirebase(carrito);
-    }
-  }, [carrito, cargandoDesdeFirebase]);
+  const { carrito, setCarrito } = useCarrito(); // ✅ Usar carrito global
 
   // ➕ Agregar producto
   const agregarAlCarrito = (producto) => {

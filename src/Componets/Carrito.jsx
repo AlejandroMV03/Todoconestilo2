@@ -34,7 +34,7 @@ export default function Carrito({ carrito, setCarrito, eliminarDelCarrito, onCer
   };
 
   const enviarPedido = () => {
-    const numero = "529811153639";
+    const numero = "529821221169";
     const mensaje = generarMensaje();
     const url = `https://wa.me/${numero}?text=${mensaje}`;
     window.open(url, "_blank");
