@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Carrito({ carrito, setCarrito, onCerrar }) {
+export default function Carrito({ carrito, setCarrito, eliminarDelCarrito, onCerrar }) {
   const aumentarCantidad = (id) => {
     const nuevoCarrito = carrito.map((item) =>
       item.id === id ? { ...item, cantidad: item.cantidad + 1 } : item
@@ -25,7 +25,9 @@ export default function Carrito({ carrito, setCarrito, onCerrar }) {
   const generarMensaje = () => {
     let mensaje = "Pedido:\n";
     carrito.forEach((item) => {
-      mensaje += `- ${item.nombre} x${item.cantidad} - $${(item.precio * item.cantidad).toFixed(2)} MXN\n`;
+      mensaje += `- ${item.nombre} x${item.cantidad} - $${(
+        item.precio * item.cantidad
+      ).toFixed(2)} MXN\n`;
     });
     mensaje += `Total: $${total.toFixed(2)} MXN`;
     return encodeURIComponent(mensaje);
@@ -39,8 +41,14 @@ export default function Carrito({ carrito, setCarrito, onCerrar }) {
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full bg-black/50 flex justify-center items-center z-50">
-      <div className="bg-white rounded-lg p-6 max-w-md w-full">
+    <div
+      className="fixed top-0 left-0 w-full h-full bg-black/50 flex justify-center items-center z-50"
+      onClick={onCerrar} // 👉 Cerrar al tocar fuera
+    >
+      <div
+        className="bg-white rounded-lg p-6 max-w-md w-full"
+        onClick={(e) => e.stopPropagation()} // ❌ No cerrar al hacer clic dentro
+      >
         <h2 className="text-xl font-bold mb-4">Carrito de compras</h2>
         {carrito.length === 0 ? (
           <p>Tu carrito está vacío.</p>
@@ -70,12 +78,21 @@ export default function Carrito({ carrito, setCarrito, onCerrar }) {
                     >
                       +
                     </button>
+                    <button
+                      onClick={() => eliminarDelCarrito(item.id)}
+                      className="text-red-600 text-xl hover:text-red-800"
+                      title="Eliminar del carrito"
+                    >
+                      🗑️
+                    </button>
                   </div>
                 </li>
               ))}
             </ul>
 
-            <p className="font-bold mb-4 text-right">Total: ${total.toFixed(2)} MXN</p>
+            <p className="font-bold mb-4 text-right">
+              Total: ${total.toFixed(2)} MXN
+            </p>
 
             <div className="flex justify-between">
               <button
@@ -97,4 +114,3 @@ export default function Carrito({ carrito, setCarrito, onCerrar }) {
     </div>
   );
 }
-

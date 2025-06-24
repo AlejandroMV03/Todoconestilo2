@@ -4,40 +4,86 @@ import ProductCard from "../Componets/ProductCard";
 import WhatsAppButton from "../Componets/WhatsAppButton";
 import Carrito from "../Componets/Carrito";
 
+import { auth, db } from "../firebase";
+import { doc, setDoc, onSnapshot } from "firebase/firestore";
+
 export default function Bolsos() {
   const [imagenAmpliada, setImagenAmpliada] = useState(null);
   const [carrito, setCarrito] = useState([]);
   const [mostrarCarrito, setMostrarCarrito] = useState(false);
+  const [cargandoDesdeFirebase, setCargandoDesdeFirebase] = useState(true);
 
-  // Cargar carrito desde localStorage al montar el componente
-  useEffect(() => {
-    const carritoGuardado = localStorage.getItem("carrito");
-    if (carritoGuardado) {
-      setCarrito(JSON.parse(carritoGuardado));
+  // 👉 Guardar carrito en Firebase
+  const guardarCarritoEnFirebase = async (carritoActual) => {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    try {
+      await setDoc(doc(db, "carritos", user.uid), {
+        items: carritoActual,
+        actualizado: new Date(),
+      });
+    } catch (error) {
+      console.error("❌ Error al guardar carrito en Firebase:", error);
     }
+  };
+
+  // 👉 Escuchar cambios desde Firebase (solo si usuario está logueado)
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (!user) {
+        const localCarrito = localStorage.getItem("carrito");
+        if (localCarrito) setCarrito(JSON.parse(localCarrito));
+        setCargandoDesdeFirebase(false);
+        return;
+      }
+
+      const docRef = doc(db, "carritos", user.uid);
+      const unsub = onSnapshot(docRef, (docSnap) => {
+        if (docSnap.exists()) {
+          setCarrito(docSnap.data().items || []);
+        } else {
+          setCarrito([]);
+        }
+        setCargandoDesdeFirebase(false);
+      });
+
+      return () => unsub();
+    });
+
+    return () => unsubscribe();
   }, []);
 
-  // Guardar carrito en localStorage cada vez que cambie
+  // 👉 Guardar en localStorage y Firebase cuando cambie el carrito
   useEffect(() => {
     localStorage.setItem("carrito", JSON.stringify(carrito));
-  }, [carrito]);
+    if (!cargandoDesdeFirebase) {
+      guardarCarritoEnFirebase(carrito);
+    }
+  }, [carrito, cargandoDesdeFirebase]);
 
-  // ➕ Agregar producto al carrito (asegurando precio numérico)
+  // ➕ Agregar producto
   const agregarAlCarrito = (producto) => {
-    const productoExistente = carrito.find((item) => item.id === producto.id);
-    if (productoExistente) {
-      const carritoActualizado = carrito.map((item) =>
+    const existente = carrito.find((item) => item.id === producto.id);
+    if (existente) {
+      const actualizado = carrito.map((item) =>
         item.id === producto.id
           ? { ...item, cantidad: item.cantidad + 1 }
           : item
       );
-      setCarrito(carritoActualizado);
+      setCarrito(actualizado);
     } else {
       setCarrito([
         ...carrito,
         { ...producto, cantidad: 1, precio: Number(producto.precio) },
       ]);
     }
+  };
+
+  // ❌ Eliminar producto
+  const eliminarDelCarrito = (id) => {
+    const nuevoCarrito = carrito.filter((item) => item.id !== id);
+    setCarrito(nuevoCarrito);
   };
 
   return (
@@ -82,6 +128,7 @@ export default function Bolsos() {
         <Carrito
           carrito={carrito}
           setCarrito={setCarrito}
+          eliminarDelCarrito={eliminarDelCarrito}
           onCerrar={() => setMostrarCarrito(false)}
         />
       )}
