@@ -4,30 +4,18 @@ import Maletas from "./Pages/Maletas";
 import Perfumes from "./Pages/Perfumes";
 import Inicio from "./Pages/Incio";
 import Header from "./Componets/Header";
-import { useEffect, useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./firebase";
 import Login from "./Componets/Login";
-import './index.css';
 import Contacto from "./Pages/Contacto";
+import './index.css';
+
+import { useAuth } from "./context/AuthContext"; // 👈 importar el contexto
 
 function App() {
-  const [user, setUser] = useState(null);
-  const [checkingAuth, setCheckingAuth] = useState(true);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setCheckingAuth(false);
-    });
-    return () => unsubscribe();
-  }, []);
-
+  const { user, checkingAuth } = useAuth(); // 👈 usarlo aquí
   const splashText = "Todo Con Estilo";
 
   return (
     <>
-      {/* Fondo animado siempre visible */}
       <div className="bg"></div>
       <div className="bg bg2"></div>
       <div className="bg bg3"></div>

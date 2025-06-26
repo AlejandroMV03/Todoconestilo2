@@ -43,11 +43,11 @@ export default function Carrito({ carrito, setCarrito, eliminarDelCarrito, onCer
   return (
     <div
       className="fixed top-0 left-0 w-full h-full bg-black/50 flex justify-center items-center z-50"
-      onClick={onCerrar} // 👉 Cerrar al tocar fuera
+      onClick={onCerrar} 
     >
       <div
         className="bg-white rounded-lg p-6 max-w-md w-full"
-        onClick={(e) => e.stopPropagation()} // ❌ No cerrar al hacer clic dentro
+        onClick={(e) => e.stopPropagation()} 
       >
         <h2 className="text-xl font-bold mb-4">Carrito de compras</h2>
         {carrito.length === 0 ? (
